@@ -83,3 +83,30 @@ L.geoJson(data, {
 var info = L.control({
     position: "bottomleft"
   });
+
+  // Then add all the details for the legend
+  info.onAdd = function() {
+    var div = L.DomUtil.create("div", "info legend");
+    //use array of number for magnitude and colors to make legend
+    var rad = [0, 1, 2, 3, 4, 5];
+    var color = [
+      "#FE7272",
+      "#D84141",
+      "#B11B1B",
+      "#8B0000",
+      "#650000",
+      "#3E0000"
+    ];
+    div.innerHTML += 'Magnitude<br>'
+    for (var i = 0; i < rad.length; i++) {
+        div.innerHTML +=
+        '<i style="background:' + color[i] + '"></i> ' +
+        rad[i] + (rad[i + 1] ? '&ndash;' + rad[i + 1] + '<br>' : '+');
+    }
+    return div;
+  };
+
+  //add info to map
+  info.addTo(map);
+
+});
