@@ -61,3 +61,25 @@ d3.json(earthquakelink, function(data) {
       return "#FE7272";
     }
   }
+//use layer geojson to create pop ups that tell each earthquake's magnitude, depth and location
+L.geoJson(data, {
+    pointToLayer: function(circle, loc) {
+      return L.circleMarker(loc);
+    },
+    style: styleInfo,
+    onEachFeature: function(earthquake, pop) {
+        //for each pop up set the magnitude, depth and earthquake location obtained from geojson data
+      pop.bindPopup(
+        "Magnitude: "
+          + earthquake.properties.mag
+          + "<br>Depth: "
+          + earthquake.geometry.coordinates[2]
+          + "<br>Location: "
+          + earthquake.properties.place
+      );
+    }
+  }).addTo(map);
+//put a legend in the bottom left of the map
+var info = L.control({
+    position: "bottomleft"
+  });
