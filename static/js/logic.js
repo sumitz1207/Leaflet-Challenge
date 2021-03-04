@@ -21,3 +21,43 @@ var map = L.map("map", {
   center: [33.14, -96],
   zoom: 3
 });
+
+//add tile layer to the map
+tile.addTo(map);
+d3.json(earthquakelink, function(data) {
+
+  function styleInfo(feature) {
+    return {
+      opacity: 0.8,
+      fillOpacity: 0.9,
+      fillColor: col(feature.geometry.coordinates[2]),
+      color: "#000",
+      radius: rad(feature.properties.mag),
+      stroke: true,
+      weight: 0.5
+    };
+  }
+//set radius for map
+  function rad(mag) {
+    if (mag === 0) {
+      return 0.7;
+    }
+    return mag * 3.2;
+  }
+//color the map circles according to magnitude passed in; a spectrum of red colors
+  function col(mag) {
+    switch (true) {
+    case (mag > 90):
+      return "#3E0000";
+    case (mag > 70 && mag <= 90):
+      return "#650000";
+    case (mag > 50 && mag <= 70):
+      return "#8B0000";
+    case (mag > 30 && mag <= 50):
+      return "#B11B1B";
+    case (mag > 10 && mag <= 30):
+      return "#D84141";
+    default:
+      return "#FE7272";
+    }
+  }
